@@ -1,0 +1,10 @@
+{
+  "extends": "@backstage/cli/config/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist-types",
+    "incremental": false,
+    "sourceMap": true,
+    "jsx": "react"
+  },
+  "include": ["packages/*/src"]
+}

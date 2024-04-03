@@ -1,0 +1,32 @@
+{
+  "name": "@mia-platform/backstage-plugin",
+  "version": "0.1.0",
+  "packageManager": "yarn@4.1.1",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Mia Platform Core Team <core@mia-platform.eu>",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "prettier:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.26.2",
+    "@spotify/prettier-config": "^15.0.0",
+    "prettier": "^2.3.2",
+    "typescript": "^5.4.3"
+  },
+  "prettier": "@spotify/prettier-config",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=v18"
+  }
+}

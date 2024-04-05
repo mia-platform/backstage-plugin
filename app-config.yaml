@@ -2,3 +2,6 @@
 app:
   title: Mia-Platform Backstage sample app
   baseUrl: http://localhost:3000
+
+backend:
+  baseUrl: http://localhost:7007

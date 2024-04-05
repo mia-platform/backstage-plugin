@@ -1,0 +1,1 @@
+export { MiaProjectsTableComponent } from './MiaProjectsTableComponent';

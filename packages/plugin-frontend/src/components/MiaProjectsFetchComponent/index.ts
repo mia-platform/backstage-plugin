@@ -1,0 +1,1 @@
+export { MiaProjectsFetchComponent } from './MiaProjectsFetchComponent';

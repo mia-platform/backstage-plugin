@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "fe": "yarn workspace @mia-platform/backstage-plugin-frontend",
     "be": "yarn workspace @mia-platform/backstage-plugin-backend",
     "prettier:check": "prettier --check ."
   },

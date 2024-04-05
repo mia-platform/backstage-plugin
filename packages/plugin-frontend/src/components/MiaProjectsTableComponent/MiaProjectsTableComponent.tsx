@@ -5,7 +5,6 @@ import {
   Page,
   Content,
   ContentHeader,
-  HeaderLabel,
   SupportButton,
   LinkButton,
   DismissableBanner,
@@ -33,21 +32,22 @@ export const MiaProjectsTableComponent = () => {
 
   return (
   <Page themeId="tool">
-    <Header title="Mia Platform" subtitle="Optional subtitle">
-      <HeaderLabel label="Owner" value="Team X" />
-    </Header>
+    <Header title="Mia Platform Plugin" subtitle="Optional subtitle" />
     <Content>
-      <ContentHeader title="">
+      <ContentHeader
+        titleComponent={<LinkButton variant="contained" to="." onClick={() => syncAllProjects()}>sync all</LinkButton>}
+      >
         <div style={{display:'flex', justifyContent: 'space-evenly'}}>
-        <LinkButton variant="contained" to="." onClick={() => syncAllProjects()}>sync all</LinkButton>
-        <SupportButton>A description of your plugin goes here.</SupportButton>
+          <SupportButton>A description of your plugin goes here.</SupportButton>
         </div>
       </ContentHeader>
+
       <Grid container spacing={3} direction="column">
         <Grid item>
             <MiaProjectsFetchComponent setBannerId={setBannerId}/>
         </Grid>
       </Grid>
+
       {
         bannerId && <DismissableBanner message='Data synchronization in progress' variant='info' fixed id={bannerId} />
       }

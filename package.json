@@ -13,7 +13,8 @@
     "prettier:check": "prettier --check .",
     "build": "yarn workspaces foreach -A run build",
     "lint": "yarn workspaces foreach -A run lint",
-    "test": "yarn workspaces foreach -A run test --no-watch"
+    "test": "yarn workspaces foreach -A run test --no-watch",
+    "bump": "ts-node scripts/bump.ts"
   },
   "devDependencies": {
     "@backstage/cli": "^0.26.2",
@@ -23,6 +24,7 @@
     "commander": "^12.0.0",
     "prettier": "^2.3.2",
     "semver": "^7.6.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   },
   "prettier": "@spotify/prettier-config",

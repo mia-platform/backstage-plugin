@@ -4422,6 +4422,7 @@ __metadata:
     commander: "npm:^12.0.0"
     prettier: "npm:^2.3.2"
     semver: "npm:^7.6.0"
+    ts-node: "npm:^10.9.2"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft

@@ -13,11 +13,6 @@ const processDir = path.resolve()
 const packages = ['frontend', 'backend'] as const
 type Package = typeof packages[number]
 
-const packagesCwd: Record<Package, string> = {
-  frontend: path.resolve(processDir, 'packages/plugin-frontend'),
-  backend: path.resolve(processDir, 'packages/plugin-backend'),
-}
-
 interface Context {
   version: string
   package: Package
@@ -47,7 +42,7 @@ function getArgs() {
 
       ctx.version = version 
       ctx.package = pkg
-      ctx.cwd = packagesCwd[pkg]
+      ctx.cwd = processDir
       ctx.packageJsonPath = path.resolve(ctx.cwd, 'package.json')
       ctx.changelogPath = path.resolve(ctx.cwd, 'CHANGELOG.md')
     })
@@ -131,7 +126,6 @@ function commitAndTag(version: string, { name }: IPackageJson) {
 async function main() {
   getArgs()
 
-  execCommandSync('cd', [packagesCwd[ctx.package]])
   execCommandSync('yarn', ['version', ctx.version])
 
   const packageJson = await getPackageJson()

@@ -40,5 +40,4 @@ jobs:
         run: yarn workspace ${{ steps.prepare-npm-package.outputs.package }} build
       
       - name: Publish
-        working-directory: ./packages/${{ steps.prepare-npm-package.outputs.package }}
-        run: yarn npm publish
+        run: yarn workspace ${{ steps.prepare-npm-package.outputs.package }} npm publish

@@ -1,6 +1,6 @@
 {
   "name": "@mia-platform/backstage-plugin-frontend",
-  "version": "1.0.0-rc7",
+  "version": "1.0.0-rc8",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Mia Platform Core Team <core@mia-platform.eu>",
   "repository": {

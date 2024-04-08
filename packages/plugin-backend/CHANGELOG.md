@@ -1,3 +1,5 @@
-# Unreleased
+# Changelog
+
+## Unreleased
 
 - First release

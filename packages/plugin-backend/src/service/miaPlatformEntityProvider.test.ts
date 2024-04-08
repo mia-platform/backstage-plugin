@@ -11,6 +11,7 @@ describe('MiaPlatformEntityProvider', () => {
     //     }
     // }
 
+    // eslint-disable-next-line jest/expect-expect
     it('authorization basic', async() => {
         global.fetch = jest.fn(() =>
         Promise.resolve({

@@ -11,7 +11,9 @@
     "fe": "yarn workspace @mia-platform/backstage-plugin-frontend",
     "be": "yarn workspace @mia-platform/backstage-plugin-backend",
     "prettier:check": "prettier --check .",
-    "build": "yarn workspaces foreach -A run build"
+    "build": "yarn workspaces foreach -A run build",
+    "lint": "yarn workspaces foreach -A run lint",
+    "test": "yarn workspaces foreach -A run test --no-watch"
   },
   "devDependencies": {
     "@backstage/cli": "^0.26.2",

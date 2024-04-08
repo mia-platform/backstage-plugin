@@ -1,0 +1,44 @@
+name: Tag
+
+env:
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+on:
+  push:
+    tags:
+      - "@mia-platform/**"
+
+jobs:
+  release:
+    name: Release package on npm
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract tag name
+        id: extract_tag
+        shell: bash
+        run: echo "tag=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_OUTPUT
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn 
+
+      - name: Install
+        run: yarn install --immutable
+
+      - name: Prepare NPM
+        id: prepare-npm-package
+        run: |
+          TAGS=${{ steps.extract_tag.outputs.tag }}
+          echo "package=$(echo $TAGS | sed -r 's/@mia-platform\/(.*)@.*$/@mia-platform\/\1/')" >> $GITHUB_OUTPUT
+
+      - name: Build
+        run: yarn workspace ${{ steps.prepare-npm-package.outputs.package }} build
+      
+      - name: Publish
+        working-directory: ./packages/${{ steps.prepare-npm-package.outputs.package }}
+        run: yarn npm publish

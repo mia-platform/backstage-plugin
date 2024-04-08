@@ -18,7 +18,11 @@
   "devDependencies": {
     "@backstage/cli": "^0.26.2",
     "@spotify/prettier-config": "^15.0.0",
+    "@ts-type/package-dts": "^2.0.8",
+    "@types/semver": "^7",
+    "commander": "^12.0.0",
     "prettier": "^2.3.2",
+    "semver": "^7.6.0",
     "typescript": "^5.4.3"
   },
   "prettier": "@spotify/prettier-config",

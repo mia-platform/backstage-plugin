@@ -5,5 +5,10 @@
     "incremental": false,
     "sourceMap": true,
     "jsx": "react"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
   }
 }

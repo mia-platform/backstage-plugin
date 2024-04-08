@@ -1,6 +1,6 @@
 {
   "name": "@mia-platform/backstage-plugin-frontend",
-  "version": "1.0.0-rc.6",
+  "version": "0.1.2-0",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Mia Platform Core Team <core@mia-platform.eu>",
   "repository": {
@@ -15,7 +15,9 @@
     "main": "dist/index.esm.js",
     "types": "dist/index.d.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "backstage": {
     "role": "frontend-plugin"
   },

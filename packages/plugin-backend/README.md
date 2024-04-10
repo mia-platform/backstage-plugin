@@ -14,7 +14,6 @@ import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { CatalogBuilder, CatalogEnvironment } from '@backstage/plugin-catalog-backend';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
-import { ServerTokenManager } from '@backstage/backend-common';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -66,6 +65,7 @@ builder.addEntityProvider(miaPlatformProvider);
 // ...
 
 miaPlatformProvider.full_mutation()
+return router;
 ```
 
 Edit `app-config.yaml`
@@ -79,4 +79,16 @@ miaPlatform:
       clientId: ...
       clientSecret: ...
       companyId: ...
+```
+and under `app`
+
+```yaml
+support:
+    url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+    items: 
+      - title: Documentation
+        icon: docs
+        links:
+          - url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+            title: Repository
 ```

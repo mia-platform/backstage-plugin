@@ -19,5 +19,5 @@ import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-fr
 In `packages/app/src/components/Root/Root.tsx`
 
 ```tsx
-<SidebarItem icon={TODO} to="mia-platform" text="Mia Platform" />;
+<SidebarItem icon={MiaPlatformIcon} to="mia-platform" text="Mia Platform" />;
 ```

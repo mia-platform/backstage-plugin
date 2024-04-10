@@ -8,7 +8,7 @@ describe('MiaPlatformEntityProvider', () => {
     const environment = 'environment'
     const clientId = 'clientId'
     const clientSecret = 'clientSecret'
-    const privateKeyPath = 'plugins/mia-platform-plugin-backend/src/service/privateKeyTestFile.pem'
+    const privateKeyPath = 'src/service/privateKeyTestFile.pem'
     const kid = 'kid'
     const expirationTime = 10
     const logger = winston.createLogger({
@@ -125,7 +125,7 @@ describe('MiaPlatformEntityProvider', () => {
                             return 'JWT'
                         }
                         if (it === 'privateKeyPath') {
-                            return 'plugins/mia-platform-plugin-backend/src/service/privateKeyTestFile.pem'
+                            return 'src/service/privateKeyTestFile.pem'
                         }
                         return it
                     },

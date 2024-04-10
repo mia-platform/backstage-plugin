@@ -1,4 +1,4 @@
-import { ServerTokenManager, createServiceBuilder } from '@backstage/backend-common';
+import { createServiceBuilder } from '@backstage/backend-common';
 import { Server } from 'http';
 import { Logger } from 'winston';
 import { createRouter } from './router';
@@ -17,12 +17,10 @@ export async function startStandaloneServer(
 ): Promise<Server> {
   const logger = options.logger.child({ service: 'mia-platform-plugin-backend' });
   logger.debug('Starting application server...');
-  const tokenManager = ServerTokenManager.fromConfig(options.config, { logger: logger });
   const router = await createRouter({
     config: options.config,
     logger,
-    miaPlatformEntityProvider: {} as MiaPlatformEntityProvider,
-    tokenManager: tokenManager
+    miaPlatformEntityProvider: {} as MiaPlatformEntityProvider
   });
 
   let service = createServiceBuilder(module)

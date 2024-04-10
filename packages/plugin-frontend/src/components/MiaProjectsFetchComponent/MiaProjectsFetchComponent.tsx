@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Table, TableColumn, Content, ContentHeader, LinkButton, Progress, ResponseErrorPanel, Link} from '@backstage/core-components';
+import { Table, TableColumn, Content, ContentHeader, LinkButton, Progress, ResponseErrorPanel, Link } from '@backstage/core-components';
 import { Entity } from '@backstage/catalog-model'
-import {useApi, configApiRef} from '@backstage/core-plugin-api'
+import { useApi, configApiRef } from '@backstage/core-plugin-api'
 
 type LogicalScopeLayers = {
   name: string,
@@ -15,22 +15,22 @@ type Dashboard = {
   url: string
 }
 type Host = {
-    host: string,
-    isBackoffice: boolean,
-    scheme: string
+  host: string,
+  isBackoffice: boolean,
+  scheme: string
 }
 
 type Environment = {
   cluster: {
-      clusterId: string,
-      namespace: string
+    clusterId: string,
+    namespace: string
   },
   dashboards: Dashboard[],
   deploy: {
-      providerId: string,
-      runnerTool: string,
-      strategy: string,
-      type: string
+    providerId: string,
+    runnerTool: string,
+    strategy: string,
+    type: string
   },
   envId: string,
   envPrefix: string,
@@ -46,9 +46,9 @@ export type Project = {
   description: string,
   environments: Environment[],
   info: {
-      projectOwner: string,
-      teamContact: string,
-      technologies: string[]
+    projectOwner: string,
+    teamContact: string,
+    technologies: string[]
   },
   layerId: string,
   logicalScopeLayers: LogicalScopeLayers[],
@@ -56,7 +56,7 @@ export type Project = {
   projectId: string,
   projectNamespaceVariable: string,
   repository: {
-      providerId: string
+    providerId: string
   },
   tenantId: string,
   tenantName: string
@@ -67,7 +67,7 @@ type DenseTableProps = {
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
 };
 
-export const DenseTable = ({ entities, setBannerId}: DenseTableProps) => {
+export const DenseTable = ({ entities, setBannerId }: DenseTableProps) => {
   const config = useApi(configApiRef)
   const baseUrl = config.getString('backend.baseUrl')
   const appUrl = config.getString('app.baseUrl')
@@ -84,21 +84,20 @@ export const DenseTable = ({ entities, setBannerId}: DenseTableProps) => {
 
   const data = entities.map(entity => {
     async function syncProject(companyId: string | undefined, projectId: string | undefined): Promise<void> {
-      if(!projectId){
+      if (!projectId) {
         throw new Error('Missing project id');
       }
-      if(!companyId){
+      if (!companyId) {
         throw new Error('Missing company id');
       }
-      try{
+      try {
         const uuid = window.crypto.randomUUID()
         setBannerId(uuid)
         await fetch(`${baseUrl}/api/mia-platform/sync/company/${companyId}/project/${projectId}`)
-      } 
-      catch(exception){
-        // const uuid = window.crypto.randomUUID()
-        // setErrorBannerId(uuid)
       }
+      catch (exception) {
+        /* empty */
+}
     }
 
     return {
@@ -127,29 +126,29 @@ type Props = {
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
 }
 type ComponentState = 'loading' | 'loaded' | Error
-export const MiaProjectsFetchComponent: React.FC<Props> = ({setBannerId}) => {
+export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId }) => {
   const config = useApi(configApiRef)
   const [entities, setEntities] = useState<Entity[]>([])
   const [componentState, setComponentState] = useState<ComponentState>('loading')
   const baseUrl = config.getString('backend.baseUrl')
 
   const fetchEntities = useCallback(async () => {
-    try{
+    try {
       const response = await fetch(`${baseUrl}/api/catalog/entities`)
       const catalogEntities = await response.json() as Entity[]
       const projects = catalogEntities
-        ?.filter(item => item.metadata.tags?.includes('mia-platform') && item.kind === 'System' )
+        ?.filter(item => item.metadata.tags?.includes('mia-platform') && item.kind === 'System')
         .sort((item1, item2) => item1.metadata.name.localeCompare(item2.metadata.name))
       setEntities(projects)
       setBannerId(undefined)
-      setComponentState( (prev) =>{
-        if(prev === 'loading')
+      setComponentState((prev) => {
+        if (prev === 'loading')
           return 'loaded'
         return prev
       })
-    } catch (exception){
-      setComponentState( (prev) =>{
-        if(prev === 'loading')
+    } catch (exception) {
+      setComponentState((prev) => {
+        if (prev === 'loading')
           return exception as Error
         return prev
       })
@@ -158,19 +157,23 @@ export const MiaProjectsFetchComponent: React.FC<Props> = ({setBannerId}) => {
 
   function getDenseTable(systems: Entity[]): React.JSX.Element[] {
     const groupedSystems = systems.reduce((r, system: Entity) => {
-      const domain = system.spec!!.domain!! as string
+      const domain = system.spec!!.domainName!! as string
       r[domain] = r[domain] || [];
       r[domain].push(system);
       return r;
     }, Object.create(null))
     const tables = []
+    if (!systems.length) {
+      tables.push(<ContentHeader title='No data' />)
+      return tables
+    }
     // eslint-disable-next-line guard-for-in
-    for (const key in groupedSystems){
+    for (const key in groupedSystems) {
       tables.push(
         <Content>
-        <ContentHeader title={key} />
-        <DenseTable entities={groupedSystems[key]} setBannerId={setBannerId}/>
-      </Content>
+          <ContentHeader title={key} />
+          <DenseTable entities={groupedSystems[key]} setBannerId={setBannerId} />
+        </Content>
       )
     }
     return tables
@@ -191,7 +194,7 @@ export const MiaProjectsFetchComponent: React.FC<Props> = ({setBannerId}) => {
   }
 
   return (
-  <div>
-    {getDenseTable(entities)}
-  </div>)
+    <div>
+      {getDenseTable(entities)}
+    </div>)
 };

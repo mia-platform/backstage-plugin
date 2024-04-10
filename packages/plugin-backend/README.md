@@ -24,20 +24,17 @@ export default async function createPlugin(
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
 
-  const miaPlatformProvider = MiaPlatformEntityProvider.create(env.config);
+  const miaPlatformProvider = MiaPlatformEntityProvider.create(env.config, env.logger);
   builder.addEntityProvider(miaPlatformProvider);
 
   const { processingEngine } = await builder.build();
 
   await processingEngine.start();
 
-  const tokenManager = ServerTokenManager.fromConfig(env.config, { logger: env.logger });
-
   return await createRouter({
     logger: env.logger,
     config: env.config,
     miaPlatformEntityProvider: miaPlatformProvider,
-    tokenManager: tokenManager
   });
 }
 ```
@@ -63,7 +60,7 @@ import { MiaPlatformEntityProvider } from '@mia-platform/backstage-plugin-backen
 
 // ...
 
-const miaPlatformProvider = MiaPlatformEntityProvider.create(env.config);
+const miaPlatformProvider = MiaPlatformEntityProvider.create(env.config, env.logger);
 builder.addEntityProvider(miaPlatformProvider);
 
 // ...

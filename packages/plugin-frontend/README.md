@@ -1,12 +1,20 @@
 # Mia-Platform Backstage Plugin Frontend
 
->  ⚠️ This project is work-in-progress
+`@mia-platform/backstage-plugin-frontend` is a plugin for the Backstage frontend app. It shows information about the company and its projects on the Mia-Platform console.
+
+## Requirements
+
+This plugin requires @mia-platform/backstage-plugin-backend it connects to the backend to make requests to the Mia-Platform console API.
+
+## Configuration
+
+The first step is to install the plugin to your Backstage app:
 
 ```sh
 yarn workspace app add @mia-platform/backstage-plugin-frontend
 ```
 
-In `packages/app/src/App.tsx`
+Once the plugin is installed in the App page `packages/app/src/App.tsx` add the route to our frontend page:
 
 ```tsx
 import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-frontend'
@@ -16,7 +24,7 @@ import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-fr
 <Route path="/mia-platform" element={<MiaPlatformPluginFrontendPage />} />
 ```
 
-In `packages/app/src/components/Root/Root.tsx`
+At the end on the Root page of your Backstage app `packages/app/src/components/Root/Root.tsx` add on the sidebar the Mia-Platform frontend page with its icon:
 
 ```tsx
 <SidebarItem icon={MiaPlatformIcon} to="mia-platform" text="Mia Platform" />;

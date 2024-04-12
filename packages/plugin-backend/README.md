@@ -1,10 +1,10 @@
 # Mia-Platform Backstage Plugin Backend
 
-`@mia-platform/backstage-plugin-backend` is a plugin for the Backstage backend app. It updates and inserts on the catalog of your Bakcstage application all the entities that can be found on your Mia-Platform console such as components, resources, systems etc. It also displays all these information on a dedicated page of the plugin.
+`@mia-platform/backstage-plugin-backend` is a plugin for the Backstage backend app. It updates and inserts on the catalog of your Backstage application all the entities that can be found on your Mia-Platform console such as components, resources, systems etc. It also displays all these information on a dedicated page of the plugin.
 
 ## Requirements
 
-This plugin requires [`@mia-platform/backstage-plugin-frontend`](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-frontend/README.md) to display all the informaton retrieved by the backend plugin on a dedicated page.
+This plugin requires [`@mia-platform/backstage-plugin-frontend`](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-frontend/README.md) to display all the information retrieved by the backend plugin on a dedicated page.
 
 ## Configuration
 

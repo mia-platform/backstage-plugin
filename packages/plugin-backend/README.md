@@ -1,10 +1,10 @@
 # Mia-Platform Backstage Plugin Backend
 
-`@mia-platform/backstage-plugin-backend` is a plugin for the Backstage backend app. It updates and inserts on the catalog of your Bakcstage application all the entities that can be found on you Mia-Platform console such as components, resources, systems etc. It also displays all these information on a dedicated page of the plugin.
+`@mia-platform/backstage-plugin-backend` is a plugin for the Backstage backend app. It updates and inserts on the catalog of your Bakcstage application all the entities that can be found on your Mia-Platform console such as components, resources, systems etc. It also displays all these information on a dedicated page of the plugin.
 
 ## Requirements
 
-This plugin requires @mia-platform/backstage-plugin-frontend to display all the informaton retrieved by the backend plugin on a dedicated page.
+This plugin requires [`@mia-platform/backstage-plugin-frontend`](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-frontend/README.md) to display all the informaton retrieved by the backend plugin on a dedicated page.
 
 ## Configuration
 
@@ -74,7 +74,24 @@ builder.addEntityProvider(miaPlatformProvider);
 miaPlatformProvider.full_mutation()
 ```
 
-5. Add to your `app-config.yaml` file the section for the configuration of the Mia-Platform console
+This part is needed to insert all the Mia-Platform resources to the catalog of your Backstage application.
+
+5. Add to your `app-config.yaml` file the section for the configuration of support button and the Mia-Platform console
+
+Under `app` add the configuration for the support button
+
+```yaml
+support:
+    url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+    items: 
+      - title: Documentation
+        icon: docs
+        links:
+          - url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+            title: Repository
+```
+
+And then the configuration for the Mia-Platform console:
 
 ```yaml
 miaPlatform:
@@ -93,33 +110,23 @@ miaPlatform:
       companyId: ...
 ```
 
-- `baseUrl`: Mia Platform console url
-- `authorizations`: array of service accounts to use to retrieve projects information
+  - `baseUrl`: Mia Platform console url
+  - `authorizations`: array of service accounts to use to retrieve projects information
 
-The authorization elements inside the array should be match one of the following:
 
-### BASIC
+## Authorization
+
+The authorization elements inside the array should match one of the following:
+
+##### BASIC
 - `authMode`: 'BASIC'
 - `clientId`: clientId used by the service account
 - `clientSecret`: clientSecret used by the service account
-- `companyId`: (optional) companyId related to the service account
+- `companyId`: companyId related to the service account
 
-### JWT
+##### JWT
 - `authMode`: 'JWT'
 - `clientId`: clientId used by the service account
 - `kid`: kid related to the service account to use
 - `privateKeyPath`: path to the file with the private key
-- `companyId`: (optional) companyId related to the service account
-
- Lastly under `app` add the configuration for the support button
-
-```yaml
-support:
-    url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
-    items: 
-      - title: Documentation
-        icon: docs
-        links:
-          - url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
-            title: Repository
-```
+- `companyId`: companyId related to the service account

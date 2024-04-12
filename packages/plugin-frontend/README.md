@@ -4,7 +4,7 @@
 
 ## Requirements
 
-This plugin requires @mia-platform/backstage-plugin-backend it connects to the backend to make requests to the Mia-Platform console API.
+This plugin requires [`@mia-platform/backstage-plugin-backend`](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-backend/README.md) which connects the frontend to the catalog of the backstage app and retrieves all the information from the Mia-Platform console API.
 
 ## Configuration
 

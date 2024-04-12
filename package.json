@@ -1,6 +1,6 @@
 {
   "name": "@mia-platform/backstage-plugin",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "packageManager": "yarn@4.1.1",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Mia Platform Core Team <core@mia-platform.eu>",

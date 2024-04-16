@@ -4397,7 +4397,7 @@ __metadata:
     "@backstage/core-plugin-api": "npm:^1.9.1"
     "@backstage/dev-utils": "npm:^1.0.30"
     "@material-ui/core": "npm:^4.12.4"
-    "@types/react": "npm:^18.2.74"
+    "@types/react": "npm:^18.2.79"
     "@types/react-dom": "npm:^18.2.24"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -6713,7 +6713,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.13.1 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.2.74":
+"@types/react@npm:*, @types/react@npm:^16.13.1 || ^17.0.0 || ^18.0.0":
   version: 18.2.74
   resolution: "@types/react@npm:18.2.74"
   dependencies:
@@ -6731,6 +6731,16 @@ __metadata:
     "@types/scheduler": "npm:^0.16"
     csstype: "npm:^3.0.2"
   checksum: 10/f5dce5825e693313bb7f8db0199299a25be21d58a7f6eedea9dacd593d2b4013d664ed3d54e5fb241a43c7ebbdfeee41d5a500ed2979cc772a89d460aa40d8f4
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.2.79":
+  version: 18.2.79
+  resolution: "@types/react@npm:18.2.79"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 10/2ef833e7d0a5c226beddbbe090811582371f6ae5e2f092a3d9f47cc6087c8bce0b96ee33e351de6d1d470f0a0ec5892d971933f841ef31538c1821681fc6569e
   languageName: node
   linkType: hard
 

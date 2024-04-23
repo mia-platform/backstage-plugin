@@ -14,59 +14,68 @@
   limitations under the License.
 */
 import { errorHandler } from '@backstage/backend-common';
-import { Config } from '@backstage/config';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { MiaPlatformEntityProvider } from './miaPlatformEntityProvider';
 
-
 export interface RouterOptions {
   logger: Logger;
-  config: Config;
+  prefix?: string;
   miaPlatformEntityProvider: MiaPlatformEntityProvider;
 }
 
-export async function createRouter(
-  options: RouterOptions,
-): Promise<express.Router> {
-  const { miaPlatformEntityProvider, logger } = options;
+export async function createRouter(options: RouterOptions): Promise<express.Router> {
+  const { miaPlatformEntityProvider, logger, prefix = '/' } = options;
+
   const router = Router();
 
-  router.get('/sync', async (_, res) => {
+  router.get(`${prefix}sync`, async (_, res) => {
     logger.info('GET /sync called')
+
     try {
       await miaPlatformEntityProvider.full_mutation()
     } catch (exception) {
       logger.error(exception)
     }
+
+    res.statusCode = 204
     res.json();
+
     return
   })
 
-  router.get('/sync/company/:companyId', async (req, res) => {
+  router.get(`${prefix}sync/company/:companyId`, async (req, res) => {
     logger.info('GET /sync/company called')
+
     try {
       await miaPlatformEntityProvider.syncProjects([req.params.companyId], undefined)
     } catch (error) {
       logger.error(error)
     }
+
+    res.statusCode = 204
     res.json();
     return
   })
 
-  router.get('/sync/company/:companyId/project/:projectId', async (req, res) => {
+  router.get(`${prefix}sync/company/:companyId/project/:projectId`, async (req, res) => {
     logger.info('GET /sync/project called')
+
     try {
       await miaPlatformEntityProvider.syncProjects([req.params.companyId], req.params.projectId)
     } catch (error) {
       logger.error(error)
     }
+
+    res.statusCode = 204
     res.json();
+
     return
   })
 
   router.use(errorHandler());
+  
   return router;
 }
 

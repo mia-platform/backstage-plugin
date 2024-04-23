@@ -13,5 +13,38 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-export * from './service/router';
-export * from './service/miaPlatformEntityProvider'
+import { coreServices, createBackendModule } from '@backstage/backend-plugin-api';
+import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
+import { loggerToWinstonLogger } from '@backstage/backend-common';
+
+import { createRouter } from './service/router';
+import { MiaPlatformEntityProvider } from './service/miaPlatformEntityProvider';
+
+const miaPlatformModule = createBackendModule({
+  moduleId: 'mia-platform',
+  pluginId: 'catalog',
+  register(env) {
+    env.registerInit({
+        deps: {
+          config: coreServices.rootConfig,
+          catalog: catalogProcessingExtensionPoint,
+          logger: coreServices.logger,
+          httpRouter: coreServices.httpRouter,
+        },
+        async init({ logger, catalog, httpRouter, config }) {
+          const miaPlatformEntityProvider = MiaPlatformEntityProvider.create(config, loggerToWinstonLogger(logger));
+          catalog.addEntityProvider(miaPlatformEntityProvider);
+          
+          const router = await createRouter({ 
+            miaPlatformEntityProvider,
+            logger: loggerToWinstonLogger(logger),
+            prefix: '/modules/mia-platform'
+          });
+
+          httpRouter.use(router);
+        },
+    });
+  },
+});
+
+export { miaPlatformModule as default };

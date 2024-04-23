@@ -27,5 +27,9 @@ import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-fr
 At the end on the Root page of your Backstage app `packages/app/src/components/Root/Root.tsx` add on the sidebar the Mia-Platform frontend page with its icon:
 
 ```tsx
+import { MiaPlatformIcon } from '@mia-platform/backstage-plugin-frontend';
+
+// ...
+
 <SidebarItem icon={MiaPlatformIcon} to="mia-platform" text="Mia Platform" />;
 ```

@@ -25,6 +25,7 @@ type MiaPlatformAuthorizationBasic = {
   clientId: string,
   clientSecret: string,
 }
+
 type MiaPlatformAuthorizationJwt = {
   authMode: 'JWT',
   clientId: string,
@@ -32,13 +33,16 @@ type MiaPlatformAuthorizationJwt = {
   privateKeyPath: string,
   expirationTime: number,
 }
+
 type MiaPlatformAuthorization = MiaPlatformAuthorizationBasic | MiaPlatformAuthorizationJwt
+
 type MiaPlatformConfiguration = {
   baseUrl: string,
   gitBaseUrl: string,
   companies: Record<string, MiaPlatformAuthorization>,
   appBaseUrl: string,
 }
+
 export type AuthResponse = {
   access_token: String,
   tokent_type: String,
@@ -56,6 +60,7 @@ type Dashboard = {
   type: string,
   url: string
 }
+
 type Host = {
   host: string,
   isBackoffice: boolean,
@@ -108,7 +113,8 @@ type ProjectPublicVariable = {
   name: string,
   environments: Record<string, { value: string }>
 }
-type ProjectAnnotion = {
+
+type ProjectAnnotation = {
   name: string,
   description: string,
   value: string,
@@ -117,7 +123,7 @@ type ProjectAnnotion = {
 
 type ProjectService = {
   name: string,
-  annotations: ProjectAnnotion[],
+  annotations: ProjectAnnotation[],
   description: string,
   unsecretedVariables: ProjectPublicVariable[]
 }
@@ -184,21 +190,22 @@ export class MiaPlatformEntityProvider implements EntityProvider {
   static create(config: Config, logger: Logger) {
     return new MiaPlatformEntityProvider(config, logger)
   }
-  private constructor(
-    config: Config,
-    logger: Logger
-  ) {
+
+  private constructor(config: Config, logger: Logger) {
     const miaPlatformConfiguration = this.readMiaPlatformConfiguration(config)
     this.consoleBaseUrl = miaPlatformConfiguration.baseUrl
     this.gitBaseUrl = miaPlatformConfiguration.gitBaseUrl
     this.companies = miaPlatformConfiguration.companies
     this.logger = logger
   }
+
   getProviderName(): string {
     return `miaplatform-entity-provider`;
   }
+
   async connect(connection: EntityProviderConnection): Promise<void> {
     this.connection = connection;
+    this.full_mutation()
   }
 
   async full_mutation() {

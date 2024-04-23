@@ -38,7 +38,7 @@ const miaPlatformModule = createBackendModule({
           const router = await createRouter({ 
             miaPlatformEntityProvider,
             logger: loggerToWinstonLogger(logger),
-            prefix: '/modules/mia-platform'
+            prefix: '/modules/mia-platform/'
           });
 
           httpRouter.use(router);

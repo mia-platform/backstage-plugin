@@ -28,16 +28,19 @@ import {
 import { MiaProjectsFetchComponent } from '../MiaProjectsFetchComponent';
 import { useApi, configApiRef } from '@backstage/core-plugin-api'
 
-export const MiaProjectsTableComponent = () => {
+export const MiaProjectsTableComponent = ({ apiPrefix }: { apiPrefix?: string }) => {
   const config = useApi(configApiRef)
+
   const baseUrl = config.getString('backend.baseUrl')
+  const url = `${baseUrl}/api${apiPrefix ?? '/catalog/modules/mia-platform'}`
+
   const [bannerId, setBannerId] = useState<string>()
 
   const syncAllProjects = async () => {
     try {
       const uuid = window.crypto.randomUUID()
       setBannerId(uuid)
-      await fetch(`${baseUrl}/api/mia-platform/sync`)
+      await fetch(`${url}/sync`)
     } catch (exception) {
       return
     }
@@ -56,7 +59,7 @@ export const MiaProjectsTableComponent = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <MiaProjectsFetchComponent setBannerId={setBannerId} />
+            <MiaProjectsFetchComponent apiUrl={url} setBannerId={setBannerId} />
           </Grid>
         </Grid>
         {

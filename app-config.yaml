@@ -5,3 +5,5 @@ app:
 
 backend:
   baseUrl: http://localhost:7007
+  auth:
+     dangerouslyDisableDefaultAuthPolicy: true

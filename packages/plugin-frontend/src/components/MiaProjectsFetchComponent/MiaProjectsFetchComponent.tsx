@@ -80,11 +80,12 @@ export type Project = {
 type DenseTableProps = {
   entities: Entity[];
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
+  apiUrl: string
 };
 
-export const DenseTable = ({ entities, setBannerId }: DenseTableProps) => {
+const DenseTable = ({ entities, setBannerId, apiUrl }: DenseTableProps) => {
   const config = useApi(configApiRef)
-  const baseUrl = config.getString('backend.baseUrl')
+
   const appUrl = config.getString('app.baseUrl')
 
   const columns: TableColumn[] = [
@@ -108,11 +109,11 @@ export const DenseTable = ({ entities, setBannerId }: DenseTableProps) => {
       try {
         const uuid = window.crypto.randomUUID()
         setBannerId(uuid)
-        await fetch(`${baseUrl}/api/mia-platform/sync/company/${companyId}/project/${projectId}`)
+        await fetch(`${apiUrl}/sync/company/${companyId}/project/${projectId}`)
       }
       catch (exception) {
         /* empty */
-}
+      }
     }
 
     return {
@@ -139,9 +140,12 @@ export const DenseTable = ({ entities, setBannerId }: DenseTableProps) => {
 
 type Props = {
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
+  apiUrl: string
 }
+
 type ComponentState = 'loading' | 'loaded' | Error
-export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId }) => {
+
+export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId, apiUrl }) => {
   const config = useApi(configApiRef)
   const [entities, setEntities] = useState<Entity[]>([])
   const [componentState, setComponentState] = useState<ComponentState>('loading')
@@ -187,7 +191,7 @@ export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId }) => {
       tables.push(
         <Content>
           <ContentHeader title={key} />
-          <DenseTable entities={groupedSystems[key]} setBannerId={setBannerId} />
+          <DenseTable apiUrl={apiUrl} entities={groupedSystems[key]} setBannerId={setBannerId} />
         </Content>
       )
     }

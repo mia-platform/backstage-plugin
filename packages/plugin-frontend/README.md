@@ -14,7 +14,9 @@ The first step is to install the plugin to your Backstage app:
 yarn workspace app add @mia-platform/backstage-plugin-frontend
 ```
 
-Once the plugin is installed in the App page `packages/app/src/App.tsx` add the route to our frontend page:
+Once the plugin is installed in the App page `packages/app/src/App.tsx` add the route to our frontend page.
+
+If you are using the [new backend system](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-backend/README.md#new-backend-system):
 
 ```tsx
 import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-frontend';
@@ -22,6 +24,16 @@ import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-fr
 // ...
 
 <Route path="/mia-platform" element={<MiaPlatformPluginFrontendPage />} />;
+```
+
+If you are using the [legacy backend system](https://github.com/mia-platform/backstage-plugin/blob/main/packages/plugin-backend/README.md#legacy-backend-system):
+
+```tsx
+import { MiaPlatformPluginFrontendPage } from '@mia-platform/backstage-plugin-frontend';
+
+// ...
+
+<Route path="/mia-platform" element={<MiaPlatformPluginFrontendPage apiPrefix="/mia-platform" />} />;
 ```
 
 At the end on the Root page of your Backstage app `packages/app/src/components/Root/Root.tsx` add on the sidebar the Mia-Platform frontend page with its icon:

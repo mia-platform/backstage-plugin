@@ -8,6 +8,67 @@ This plugin requires [`@mia-platform/backstage-plugin-frontend`](https://github.
 
 ## Configuration
 
+### New backend system
+
+1. Install the plugin to your Backstage app:
+```sh
+yarn workspace backend add @mia-platform/backstage-plugin-backend
+```
+
+2. In `packages/backend/src/index.ts` import the plugin and add it to the backend:
+
+```ts
+import miaPlatformModule from '@mia-platform/backstage-plugin-backend';
+
+// ...
+
+backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
+backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+
+// ...
+
+backend.add(miaPlatformModule());
+```
+
+3. Add to your `app-config.yaml` file the section for the configuration of support button and the Mia-Platform console
+
+Under `app` add the configuration for the support button
+
+```yaml
+support:
+    url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+    items: 
+      - title: Documentation
+        icon: docs
+        links:
+          - url: https://github.com/mia-platform/backstage-plugin/blob/main/README.md
+            title: Repository
+```
+
+And then the configuration for the Mia-Platform console:
+
+```yaml
+miaPlatform:
+  baseUrl: ...
+  gitBaseUrl: ...
+  authorizations:
+    - authMode: 'BASIC'
+      clientId: ...
+      clientSecret: ...
+      companyId: ...
+    - authMode: 'JWT'
+      clientId: ...
+      kid: ...
+      privateKeyPath: ...
+      expirationTime: ...
+      companyId: ...
+```
+
+  - `baseUrl`: Mia Platform console url
+  - `authorizations`: array of service accounts to use to retrieve projects information
+
+### Legacy backend system
+
 1. Install the plugin to your Backstage app:
 ```sh
 yarn workspace backend add @mia-platform/backstage-plugin-backend
@@ -112,7 +173,6 @@ miaPlatform:
 
   - `baseUrl`: Mia Platform console url
   - `authorizations`: array of service accounts to use to retrieve projects information
-
 
 ## Authorization
 

@@ -76,7 +76,7 @@ yarn workspace backend add @mia-platform/backstage-plugin-backend
 2. Create a new file `packages/backend/src/plugins/mia-platform.ts` with content:
 
 ```ts
-import { MiaPlatformEntityProvider, createRouter } from '@mia-platform/backstage-plugin-backend';
+import { MiaPlatformEntityProvider, createRouter } from '@mia-platform/backstage-plugin-backend/legacy';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { CatalogBuilder, CatalogEnvironment } from '@backstage/plugin-catalog-backend';
@@ -99,7 +99,6 @@ export default async function createPlugin(
 
   return await createRouter({
     logger: env.logger,
-    config: env.config,
     miaPlatformEntityProvider: miaPlatformProvider,
   });
 }
@@ -118,24 +117,6 @@ const miaPlatformEnv = useHotMemoize(module, () => createEnv('mia-platform'));
 
 apiRouter.use('/mia-platform', await miaPlatform(miaPlatformEnv, catalogEnv));
 ```
-4. In `packages/backend/src/plugins/catalog.ts` add the following lines of code to the existing file:
-
-```ts
-import { MiaPlatformEntityProvider } from '@mia-platform/backstage-plugin-backend';
-
-// ...
-// under line builder.addProcessor(new ScaffolderEntitiesProcessor());
-
-const miaPlatformProvider = MiaPlatformEntityProvider.create(env.config, env.logger);
-builder.addEntityProvider(miaPlatformProvider);
-
-// ... 
-// under line await processingEngine.start();
-
-miaPlatformProvider.full_mutation()
-```
-
-This part is needed to insert all the Mia-Platform resources to the catalog of your Backstage application.
 
 5. Add to your `app-config.yaml` file the section for the configuration of support button and the Mia-Platform console
 

@@ -1,6 +1,6 @@
 {
   "name": "@mia-platform/backstage-plugin-frontend",
-  "version": "1.1.0-rc.0",
+  "version": "1.1.0",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Mia Platform Core Team <core@mia-platform.eu>",
   "repository": {
@@ -52,6 +52,5 @@
     "react-router-dom": "^6.22.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
-  },
-  "stableVersion": "1.0.0"
+  }
 }

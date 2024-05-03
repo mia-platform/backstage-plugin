@@ -153,6 +153,8 @@ miaPlatform:
 ```
 
   - `baseUrl`: Mia Platform console url
+  > **Warning**
+  > The base URL must not end with a `/`
   - `authorizations`: array of service accounts to use to retrieve projects information
 
 ## Authorization

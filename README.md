@@ -2,6 +2,20 @@
 
 Mia-Platform plugin elevates your workflow that seamlessly integrates your Mia-Platform components into Backstage. It keeps your information synchronized effortlessly and gains insights into your company's domains, projects, deployment environments, and repository links, all while exploring their interrelations.
 
+## Mia Platform Configuration
+
+It is necessary to follow these steps on your Mia-Platform console for the plugin to work properly:
+
+1. Create a service account in the `Access Management` section:
+    - select between the two authentication methods: `JWT` or `Client Secret Basic`;
+    - select the Company Role field as `Reporter` which is the minimum permission.
+
+2. Once you have created the service account you can use the credentials to authenticate to the console and retrieve the Company and Project information.
+
+3. The projects on your Mia-Platform console must use the Enhanced Workflow in order for the Backstage plugin to display all data correctly.
+
+4. The revisions(branches) of your projects must have the same name as the label of the environments you are using.
+
 ## Requirements
 
 For the plugin to work, the following packages must be installed and configured in the backstage application: 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.1.1] - 2024-05-03
+
 ### Changed
 
 - Component name no longer includes tenant and project ids

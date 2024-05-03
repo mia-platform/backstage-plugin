@@ -568,8 +568,7 @@ export class MiaPlatformEntityProvider implements EntityProvider {
         apiVersion: 'backstage.io/v1alpha1',
         kind: 'Component',
         metadata: {
-          // TODO: find a better name instead of adding companyId and projectId?
-          name: `${componentName}_${project.tenantName.replaceAll(" ", "-")}_${project.projectId}`,
+          name: componentName,
           description: service.description,
           annotations: {
             'backstage.io/managed-by-location': 'url:mia-platform.eu',

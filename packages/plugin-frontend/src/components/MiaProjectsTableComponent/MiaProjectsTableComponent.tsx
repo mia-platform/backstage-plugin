@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import {
   Header,
@@ -35,13 +35,41 @@ export const MiaProjectsTableComponent = ({ apiPrefix }: { apiPrefix?: string })
   const url = `${baseUrl}/api${apiPrefix ?? '/catalog/modules/mia-platform'}`
 
   const [bannerId, setBannerId] = useState<string>()
+  const [errorBannerId, setErrorBannerId] = useState<string>()
+
+  useEffect(() => {
+    if (bannerId !== undefined) {
+      const timeoutId = setTimeout(() => setBannerId(undefined), 5000)
+      return () => clearTimeout(timeoutId)
+    }
+    return () => { /* no op */ }
+  }, [bannerId])
+
+  useEffect(() => {
+    if (errorBannerId !== undefined) {
+      const timeoutId = setTimeout(() => setErrorBannerId(undefined), 5000)
+      return () => clearTimeout(timeoutId)
+    }
+    return () => { /* no op */ }
+  }, [errorBannerId])
 
   const syncAllProjects = async () => {
     try {
+      const time = Date.now()
       const uuid = window.crypto.randomUUID()
       setBannerId(uuid)
-      await fetch(`${url}/sync`)
+      const response = await fetch(`${url}/sync`)
+      if (!response.ok) {
+        setTimeout(() => {
+          setBannerId(undefined)
+          const errorUuid = window.crypto.randomUUID()
+          setErrorBannerId(errorUuid)
+        }, 2000 - (Date.now() - time))
+      }
     } catch (exception) {
+      setBannerId(undefined)
+      const errorUuid = window.crypto.randomUUID()
+      setErrorBannerId(errorUuid)
       return
     }
   }
@@ -59,7 +87,7 @@ export const MiaProjectsTableComponent = ({ apiPrefix }: { apiPrefix?: string })
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <MiaProjectsFetchComponent apiUrl={url} setBannerId={setBannerId} />
+            <MiaProjectsFetchComponent apiUrl={url} setBannerId={setBannerId} setErrorBannerId={setErrorBannerId} />
           </Grid>
         </Grid>
         {

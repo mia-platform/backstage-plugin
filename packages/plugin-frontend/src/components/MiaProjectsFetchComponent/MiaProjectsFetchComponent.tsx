@@ -80,10 +80,11 @@ export type Project = {
 type DenseTableProps = {
   entities: Entity[];
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
+  setErrorBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
   apiUrl: string
 };
 
-const DenseTable = ({ entities, setBannerId, apiUrl }: DenseTableProps) => {
+const DenseTable = ({ entities, setBannerId, apiUrl, setErrorBannerId }: DenseTableProps) => {
   const config = useApi(configApiRef)
 
   const appUrl = config.getString('app.baseUrl')
@@ -107,12 +108,22 @@ const DenseTable = ({ entities, setBannerId, apiUrl }: DenseTableProps) => {
         throw new Error('Missing company id');
       }
       try {
+        const time = Date.now()
         const uuid = window.crypto.randomUUID()
         setBannerId(uuid)
-        await fetch(`${apiUrl}/sync/company/${companyId}/project/${projectId}`)
+        const response = await fetch(`${apiUrl}/sync/company/${companyId}/project/${projectId}`)
+        if (!response.ok) {
+          setTimeout(() => {
+            setBannerId(undefined)
+            const errorUuid = window.crypto.randomUUID()
+            setErrorBannerId(errorUuid)
+          }, 2000 - (Date.now() - time))
+        }
       }
       catch (exception) {
-        /* empty */
+        setBannerId(undefined)
+        const errorUuid = window.crypto.randomUUID()
+        setErrorBannerId(errorUuid)
       }
     }
 
@@ -140,12 +151,13 @@ const DenseTable = ({ entities, setBannerId, apiUrl }: DenseTableProps) => {
 
 type Props = {
   setBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
+  setErrorBannerId: React.Dispatch<React.SetStateAction<string | undefined>>,
   apiUrl: string
 }
 
 type ComponentState = 'loading' | 'loaded' | Error
 
-export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId, apiUrl }) => {
+export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId, setErrorBannerId, apiUrl }) => {
   const config = useApi(configApiRef)
   const [entities, setEntities] = useState<Entity[]>([])
   const [componentState, setComponentState] = useState<ComponentState>('loading')
@@ -191,7 +203,7 @@ export const MiaProjectsFetchComponent: React.FC<Props> = ({ setBannerId, apiUrl
       tables.push(
         <Content>
           <ContentHeader title={key} />
-          <DenseTable apiUrl={apiUrl} entities={groupedSystems[key]} setBannerId={setBannerId} />
+          <DenseTable apiUrl={apiUrl} entities={groupedSystems[key]} setBannerId={setBannerId} setErrorBannerId={setErrorBannerId} />
         </Content>
       )
     }

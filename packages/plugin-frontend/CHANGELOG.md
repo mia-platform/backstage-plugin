@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.1.1] - 2024-05-09
+
 ### Added
 
 - Error banner for data synchronization

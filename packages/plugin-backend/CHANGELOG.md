@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.1.2] - 2024-05-20
+
 ### Fixed
 
 - Same component displayed in a system list of components for two different environments

@@ -132,6 +132,12 @@ export type ProjectConfiguration = {
   services: Record<string, ProjectService>
 }
 
+const componentSha = (serviceId: string, companyId: string, projectId: string, env: string) => {
+  const context = {companyId, projectId, env}
+  const hash = crypto.createHash('SHA1').update(JSON.stringify(context)).digest('hex')
+  return `${serviceId}_${hash}`.substring(0, 62)
+}
+
 export class MiaPlatformEntityProvider implements EntityProvider {
   private connection?: EntityProviderConnection;
   private companies: Record<string, MiaPlatformAuthorization>
@@ -395,7 +401,7 @@ export class MiaPlatformEntityProvider implements EntityProvider {
     const domains: DeferredEntity[] = []
     let components: DeferredEntity[] = []
     for (const project of projects) {
-      domains.push(this.getDomain(project.tenantId))
+      domains.push(this.getDomain(project.tenantId, project.tenantName))
       const system = this.getSystems(project)
       systemEntities.push(system)
 
@@ -417,11 +423,14 @@ export class MiaPlatformEntityProvider implements EntityProvider {
     const finalComponents: DeferredEntity[] = []
     // eslint-disable-next-line guard-for-in
     for (const key in groupedComponents) {
-      const group = groupedComponents[key]
-      const dependsOn = group.map((component: DeferredEntity) => component.entity.spec?.dependsOn ?? [])
-      const component = group[0]
-      component.entity.spec.dependsOn = dependsOn.flat()
-      finalComponents.push(component)
+      const groups = groupedComponents[key]
+      const dependsOn = groups.map((component: DeferredEntity) => component.entity.spec?.dependsOn ?? [])
+      // eslint-disable-next-line guard-for-in
+      for(const group in groups){
+        const component = groups[group]
+        component.entity.spec.dependsOn = dependsOn.flat()
+        finalComponents.push(component)
+      }
     }
     systemEntities = systemEntities.concat(finalComponents)
 
@@ -491,7 +500,7 @@ export class MiaPlatformEntityProvider implements EntityProvider {
     } as DeferredEntity
   }
 
-  getDomain(companyId: string): DeferredEntity {
+  getDomain(companyId: string, companyName: string): DeferredEntity {
     return {
       entity: {
         apiVersion: 'backstage.io/v1alpha1',
@@ -507,7 +516,10 @@ export class MiaPlatformEntityProvider implements EntityProvider {
         },
         spec: {
           type: 'mia-platform-company',
-          owner: 'mia-platform'
+          owner: 'mia-platform',
+          profile: {
+            displayName: `${companyName}`
+          }
         }
       },
       locationKey: `mia-platform:${companyId}`
@@ -562,7 +574,7 @@ export class MiaPlatformEntityProvider implements EntityProvider {
       }
     }
 
-    const componentName = `${serviceName}${(serviceVersion) ? `_${serviceVersion}` : ''}`
+    const componentName = componentSha(serviceName, project.tenantId, project.projectId, env.envId)
     return {
       entity: {
         apiVersion: 'backstage.io/v1alpha1',
@@ -582,6 +594,10 @@ export class MiaPlatformEntityProvider implements EntityProvider {
           owner: 'mia-platform',
           lifecycle: env.envId,
           system: project.projectId,
+          domain: project.tenantName,
+            profile: {
+              displayName: `${serviceName}:${serviceVersion || `latest`}`
+            },
           dependsOn: [
             `resource:${env.cluster.namespace.replaceAll(' ', '-')}`
           ]

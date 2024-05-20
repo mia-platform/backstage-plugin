@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Fixed
+
+- Same component displayed in a system list of components for two different environments
+
+### Changed
+
+- Component name includes version
+
 ## [1.1.1] - 2024-05-03
 
 ### Changed

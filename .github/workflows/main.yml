@@ -11,25 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          show-progress: false
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          node-version: 20.x
-          cache: yarn 
-          
-      - name: Build Cache
-        uses: actions/cache@v4
-        id: build-cache
-        with:
-          path: |
-            ./node_modules
-            ./packages/**/dist
-            ./packages/**/dist-types
-            ./packages/**/node_modules
-          key: ${{ runner.os }}-build-${{ github.sha }}
-      
+          node-version-file: .nvmrc
+          check-latest: true
+
       - name: Install
         run: yarn install --immutable
 
@@ -41,32 +32,23 @@ jobs:
 
     needs:
       - prepare
-    
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          node-version: 20.x
-          cache: yarn 
-          
-      - name: Build Cache
-        uses: actions/cache@v4
-        id: build-cache
+          show-progress: false
+
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          path: |
-            ./node_modules
-            ./packages/**/dist
-            ./packages/**/dist-types
-            ./packages/**/node_modules
-          key: ${{ runner.os }}-build-${{ github.sha }}
-      
+          node-version-file: .nvmrc
+          check-latest: true
+
       - name: Install
         run: yarn install --immutable
 
       - name: Lint
         run: yarn lint
-      
+
       - name: Test
         run: yarn test

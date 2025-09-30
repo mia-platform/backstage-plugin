@@ -1,8 +1,5 @@
 name: Tag
 
-env:
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
 on:
   push:
     tags:
@@ -14,18 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          show-progress: false
 
       - name: Extract tag name
         id: extract_tag
         shell: bash
         run: echo "tag=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_OUTPUT
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          node-version: 20.x
-          cache: yarn 
+          node-version-file: .nvmrc
+          check-latest: true
 
       - name: Install
         run: yarn install --immutable
@@ -38,6 +37,6 @@ jobs:
 
       - name: Build
         run: yarn workspace ${{ steps.prepare-npm-package.outputs.package }} build
-      
+
       - name: Publish
         run: yarn workspace ${{ steps.prepare-npm-package.outputs.package }} npm publish

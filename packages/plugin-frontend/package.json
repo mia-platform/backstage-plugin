@@ -5,7 +5,8 @@
   "author": "Mia Platform Core Team <core@mia-platform.eu>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mia-platform/backstage-plugin"
+    "url": "git+https://github.com/mia-platform/backstage-plugin.git",
+    "directory": "packages/plugin-frontend"
   },
   "homepage": "https://www.mia-platform.eu/",
   "main": "src/index.ts",
